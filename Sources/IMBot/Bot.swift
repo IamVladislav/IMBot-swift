@@ -46,7 +46,7 @@ extension Array: QueryString {
 }
 
 public class Bot {
-    let baseUrl = "https://api.icq.net/bot/v1"
+    let baseUrl: String
     let token: String
     var lastEventId: Int64
     var lastRequestID: Int64
@@ -54,7 +54,8 @@ public class Bot {
     let queue = DispatchQueue.global(qos: .background)
     var log: Log?
     
-    public init(token: String, lastEventId: Int64 = 0, pollTime: Int = 10, botName: String = "ApiTestBot", enableLog: Bool = true) {
+    public init(baseUrl: String = "https://api.icq.net/bot/v1", token: String, lastEventId: Int64 = 0, pollTime: Int = 10, botName: String = "ApiTestBot", enableLog: Bool = true) {
+        self.baseUrl = baseUrl
         self.token = token
         self.lastEventId = lastEventId
         self.pollTime = pollTime
