@@ -12,6 +12,9 @@ let package = Package(
         .library(
             name: "IMBot",
             targets: ["IMBot"]),
+        .executable(
+        name: "IMBotExample",
+        targets: ["IMBotExample"]),
     ],
     dependencies: [
         .package(url: "https://github.com/Alamofire/Alamofire.git", from: "5.0.0"),
@@ -20,6 +23,9 @@ let package = Package(
     targets: [
         .target(
             name: "IMBot",
-            dependencies: ["Alamofire", "SwiftyJSON"])
+            dependencies: ["Alamofire", "SwiftyJSON"]),
+        .target(
+        name: "IMBotExample",
+        dependencies: ["Alamofire", "SwiftyJSON", "IMBot"])
     ]
 )

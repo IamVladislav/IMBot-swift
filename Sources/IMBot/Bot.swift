@@ -54,7 +54,7 @@ public class Bot {
     let queue = DispatchQueue.global(qos: .background)
     var log: Log?
     
-    public init(baseUrl: String = "https://api.icq.net/bot/v1", token: String, lastEventId: Int64 = 0, pollTime: Int = 10, botName: String = "ApiTestBot", enableLog: Bool = true) {
+    public init(baseUrl: String = "https://api.icq.net/bot/v1", token: String, lastEventId: Int64 = 0, pollTime: Int = 10, botName: String = "IMBotExample", enableLog: Bool = true) {
         self.baseUrl = baseUrl
         self.token = token
         self.lastEventId = lastEventId

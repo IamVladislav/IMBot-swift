@@ -11,7 +11,7 @@ public extension Array {
     }
 }
 
-public class ApiTestBot {
+public class IMBotExample {
     var lastEventId: Int64
     let bot: Bot
     let delegate: BotDelegate
