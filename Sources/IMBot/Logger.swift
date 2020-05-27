@@ -20,7 +20,7 @@ class Log {
     let maxLogCount: Int = 10
     
     init(botName: String) {
-        dir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent(botName).appendingPathComponent("Logs")
+        dir = FileManager.default.urls(for: .libraryDirectory, in: .userDomainMask).first?.appendingPathComponent("Logs").appendingPathComponent(botName)
         if !FileManager.default.fileExists(atPath: dir.path) {
              do {
                 try FileManager.default.createDirectory(atPath: dir.path, withIntermediateDirectories: true, attributes: nil)
