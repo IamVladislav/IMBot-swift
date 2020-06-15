@@ -592,8 +592,10 @@ public class Bot {
             , query: query, requestID: localLastRequestID, log: self.log)).responseJSON(queue: self.queue){response in
             self.log?.networkLog(response.description, requestID: localLastRequestID)
             switch response.result {
-            case .success(let body): NotificationCenter.default.post(name: .onEventsGetComplete, object: body, userInfo: ["key": "Value"])
-            case .failure(let error): print(error)
+            case .success(let body): NotificationCenter.default.post(name: .onEventsGetComplete, object: body)
+            case .failure(let error):
+                print(error)
+                NotificationCenter.default.post(name: .onEventsGetCompleteError, object: nil)
             }
         }
     }
@@ -622,6 +624,7 @@ extension Notification.Name {
     static let onUnpinMessageComplete = Notification.Name("onUnpinMessageComplete")
     static let onFilesGetInfoComplete = Notification.Name("onFilesGetInfoComplete")
     static let onEventsGetComplete = Notification.Name("onEventsGetComplete")
+    static let onEventsGetCompleteError = Notification.Name("onEventsGetCompleteError")
 }
 
 public class BotDelegate{
@@ -634,6 +637,7 @@ public class BotDelegate{
     var lastClearedRequestId: Int64 = 0
     
     public var needNewRequest: Bool = true
+    public var failedRequest: Bool = false
     
     func clearRequestDictionary() {
         if requestDictionary.count > maxRequestDictionaryCount {
@@ -668,6 +672,7 @@ public class BotDelegate{
         NotificationCenter.default.addObserver(forName: NSNotification.Name.onUnpinMessageComplete, object: nil, queue: nil, using: onUnpinMessageNotify)
         NotificationCenter.default.addObserver(forName: NSNotification.Name.onFilesGetInfoComplete, object: nil, queue: nil, using: onFilesGetInfoNotify)
         NotificationCenter.default.addObserver(forName: NSNotification.Name.onEventsGetComplete, object: nil, queue: nil, using: onEventsGetNotify)
+        NotificationCenter.default.addObserver(forName: NSNotification.Name.onEventsGetCompleteError, object: nil, queue: nil, using: onEventsGetErrorNotify)
     }
     
     func onSelfGetNotify(_ notification: Notification) {
@@ -776,6 +781,14 @@ public class BotDelegate{
             baseBot.lastEventId+=1
         }
         needNewRequest = true
+        
+        clearRequestDictionary()
+    }
+    
+    func onEventsGetErrorNotify(_ notification: Notification) {
+        baseBot.lastEventId+=1
+        
+        failedRequest = true
         
         clearRequestDictionary()
     }

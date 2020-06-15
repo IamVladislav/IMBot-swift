@@ -26,8 +26,13 @@ public class IMBotExample {
     
     func start() {
         while(true) {
-            if(delegate.needNewRequest) {
+            if delegate.needNewRequest {
                 delegate.needNewRequest = false
+                delegate.failedRequest = false
+                bot.eventsGet()
+            }
+            else if delegate.failedRequest {
+                sleep(10)
                 bot.eventsGet()
             }
             if (delegate.eventQueue.isEmpty && logicQueue.isEmpty)
