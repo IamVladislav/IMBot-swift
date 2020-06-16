@@ -6,7 +6,7 @@ import PackageDescription
 let package = Package(
     name: "IMBot",
     platforms: [
-        .macOS(.v10_15)
+        .macOS(.v10_13)
     ],
     products: [
         .library(
